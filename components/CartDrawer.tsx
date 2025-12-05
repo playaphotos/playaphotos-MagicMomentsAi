@@ -15,105 +15,51 @@ export const CartDrawer: React.FC = () => {
     const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
 
     try {
-      // 1. Call the Backend Cloud Function
-      // Note: In a production app, you would pass the specific agencyId from the event data.
       const result: any = await createStripeCheckout({
         cartItems: items,
         agencyId: 'Global_Agency', 
         returnUrl: window.location.origin
       });
 
-      // 2. Redirect the user to the Stripe Checkout Page
       if (result.data.url) {
         window.location.href = result.data.url;
-      } else {
-        throw new Error("No payment URL returned");
       }
     } catch (error) {
       console.error("Checkout Failed", error);
-      alert("Checkout failed. Please ensure backend functions are deployed.");
+      alert("Checkout failed (Backend may not be deployed yet).");
       setIsCheckingOut(false);
     }
   };
 
   return (
     <div className="fixed inset-0 z-[60] flex justify-end">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" 
-        onClick={toggleCart} 
-      />
-      
-      {/* Drawer */}
-      <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-        
-        {/* Header */}
-        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-brand-600" />
-            <h2 className="text-lg font-bold text-slate-900">Your Cart ({items.length})</h2>
-          </div>
-          <button onClick={toggleCart} className="text-slate-400 hover:text-slate-600">
-            <X className="w-6 h-6" />
-          </button>
+      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={toggleCart} />
+      <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right">
+        <div className="p-5 border-b border-slate-100 flex justify-between bg-slate-50">
+          <div className="flex items-center gap-2"><ShoppingBag className="text-brand-600"/> <b>Your Cart ({items.length})</b></div>
+          <button onClick={toggleCart}><X className="w-6 h-6 text-slate-400"/></button>
         </div>
-
-        {/* Items List */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
-          {items.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-slate-400 space-y-4">
-               <ShoppingBag className="w-16 h-16 opacity-20" />
-               <p>Your cart is empty</p>
-               <button onClick={toggleCart} className="text-brand-600 font-medium hover:underline">
-                 Browse Gallery
-               </button>
-            </div>
-          ) : (
-            items.map((item) => (
-              <div key={item.id} className="flex gap-4 p-3 rounded-xl border border-slate-100 bg-slate-50/50">
-                <div className="w-20 h-20 bg-slate-200 rounded-lg overflow-hidden flex-shrink-0">
-                  <img src={item.thumbnailUrl} alt="Item" className="w-full h-full object-cover" />
-                </div>
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <h4 className="font-semibold text-slate-800 line-clamp-1">Event Photo</h4>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-brand-100 text-brand-700 capitalize">
-                      {item.label}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900">${item.price.toFixed(2)}</span>
-                    <button 
-                      onClick={() => removeFromCart(item.id)} 
-                      className="text-red-400 hover:text-red-600 p-1"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
+          {items.length === 0 && <p className="text-center text-slate-400 mt-10">Your cart is empty.</p>}
+          {items.map(item => (
+            <div key={item.id} className="flex gap-4 p-3 border rounded-xl bg-slate-50">
+              <img src={item.thumbnailUrl} className="w-20 h-20 object-cover rounded-lg" />
+              <div className="flex-1">
+                <p className="font-bold">{item.label}</p>
+                <div className="flex justify-between mt-2">
+                  <span>${item.price.toFixed(2)}</span>
+                  <button onClick={() => removeFromCart(item.id)}><Trash2 className="w-4 h-4 text-red-400"/></button>
                 </div>
               </div>
-            ))
-          )}
-        </div>
-
-        {/* Footer */}
-        {items.length > 0 && (
-          <div className="p-6 border-t border-slate-100 bg-slate-50">
-            <div className="flex justify-between items-center mb-6">
-              <span className="text-slate-500">Total</span>
-              <span className="text-2xl font-bold text-slate-900">${cartTotal.toFixed(2)}</span>
             </div>
-            <button 
-              onClick={handleCheckout} 
-              disabled={isCheckingOut} 
-              className="w-full py-4 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-70"
-            >
-              {isCheckingOut ? <Loader2 className="animate-spin" /> : <Lock className="w-4 h-4" />}
-              {isCheckingOut ? 'Processing...' : 'Secure Checkout'}
+          ))}
+        </div>
+        {items.length > 0 && (
+          <div className="p-6 border-t bg-slate-50">
+            <div className="flex justify-between mb-4 text-xl font-bold"><span>Total</span><span>${cartTotal.toFixed(2)}</span></div>
+            <button onClick={handleCheckout} disabled={isCheckingOut} className="w-full py-4 bg-slate-900 text-white rounded-xl font-bold flex justify-center gap-2">
+              {isCheckingOut ? <Loader2 className="animate-spin"/> : <Lock className="w-4 h-4"/>} Secure Checkout
             </button>
-            <p className="text-center text-xs text-slate-400 mt-4">
-              Payments processed securely via Stripe.
-            </p>
           </div>
         )}
       </div>

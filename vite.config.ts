@@ -6,18 +6,13 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      registerType: 'autoUpdate', // THIS IS THE KEY FIX
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'Magic Moments AI',
-        short_name: 'Magic Moments',
-        description: 'Event photography remix platform',
+        name: 'Playa Photos',
+        short_name: 'PlayaPhotos',
+        description: 'Event Photography AI Platform',
         theme_color: '#4f46e5',
-        background_color: '#ffffff',
-        display: 'standalone',
-        orientation: 'portrait',
-        scope: '/',
-        start_url: '/',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -33,4 +28,8 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    outDir: 'dist',
+    sourcemap: false
+  }
 });

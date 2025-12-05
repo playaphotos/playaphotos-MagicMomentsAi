@@ -1,91 +1,34 @@
 import React from 'react';
-import { ShieldCheck, Wand2, Smartphone, Zap, Lock, Share2 } from 'lucide-react';
+import { ShieldCheck, Wand2, Smartphone, Zap } from 'lucide-react';
 
-const Features = () => {
-  return (
-    <div className="bg-white">
-      {/* Hero */}
-      <div className="relative isolate overflow-hidden bg-slate-900 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">Features that wow.</h2>
-            <p className="mt-6 text-lg leading-8 text-slate-300">
-              Everything you need to turn event photos into a viral sensation. Secure, fast, and magical.
-            </p>
-          </div>
-        </div>
+const Features = () => (
+  <div className="bg-white py-24">
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-2xl lg:text-center">
+        <h2 className="text-base font-semibold leading-7 text-indigo-600">Faster payments</h2>
+        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Everything you need to sell photos</p>
       </div>
-
-      {/* Grid */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24">
-        <div className="mx-auto max-w-2xl lg:max-w-none">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-            
-            <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-slate-900">
-                <ShieldCheck className="h-5 w-5 flex-none text-brand-600" />
-                Privacy-First Face Search
+      <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+        <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+          {[
+            { name: 'Face Search', icon: ShieldCheck, desc: 'Privacy-first AI finds your photos instantly.' },
+            { name: 'AI Remix', icon: Wand2, desc: 'Turn regular selfies into magical/professional scenes.' },
+            { name: 'Mobile First', icon: Smartphone, desc: 'Works perfectly on iOS and Android without an app store.' },
+            { name: 'Instant Delivery', icon: Zap, desc: 'Photos are emailed immediately after purchase.' },
+          ].map((feature) => (
+            <div key={feature.name} className="relative pl-16">
+              <dt className="text-base font-semibold leading-7 text-gray-900">
+                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                  <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                </div>
+                {feature.name}
               </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                <p className="flex-auto">We don't store biometric data on servers. Our AI runs directly in your browser, finding your photos instantly without compromising privacy.</p>
-              </dd>
+              <dd className="mt-2 text-base leading-7 text-gray-600">{feature.desc}</dd>
             </div>
-
-            <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-slate-900">
-                <Wand2 className="h-5 w-5 flex-none text-purple-600" />
-                AI Remixes
-              </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                <p className="flex-auto">Let guests reimagine their photos. Turn a wedding selfie into a fairytale oil painting or a cyberpunk poster instantly.</p>
-              </dd>
-            </div>
-
-            <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-slate-900">
-                <Smartphone className="h-5 w-5 flex-none text-blue-600" />
-                Mobile Optimized
-              </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                <p className="flex-auto">Works perfectly on any phone. Users can install it as a PWA (App) for instant access to their memories.</p>
-              </dd>
-            </div>
-
-             <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-slate-900">
-                <Zap className="h-5 w-5 flex-none text-yellow-500" />
-                Instant Delivery
-              </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                <p className="flex-auto">No waiting. Digital downloads are delivered via email and direct download link seconds after purchase.</p>
-              </dd>
-            </div>
-
-             <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-slate-900">
-                <Lock className="h-5 w-5 flex-none text-green-600" />
-                Secure Payments
-              </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                <p className="flex-auto">Powered by Stripe Connect. Transactions are encrypted and secure.</p>
-              </dd>
-            </div>
-
-             <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-slate-900">
-                <Share2 className="h-5 w-5 flex-none text-pink-600" />
-                Social Ready
-              </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                <p className="flex-auto">Photos are optimized for Instagram and TikTok sharing, driving more visibility to your event.</p>
-              </dd>
-            </div>
-
-          </dl>
-        </div>
+          ))}
+        </dl>
       </div>
     </div>
-  );
-};
-
+  </div>
+);
 export default Features;

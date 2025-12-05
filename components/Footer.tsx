@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           
           <div className="text-slate-500 text-sm">
-            © {year} Playa Photos. All rights reserved.
+            © {year} Playa Photos. All rights reserved (v2.0 Live)
           </div>
 
           <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-slate-500">
